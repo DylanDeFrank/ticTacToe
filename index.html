@@ -8,7 +8,7 @@
 <body>
     <script>
         function game() {
-        const displayBoard = () => {
+        const board = () => {
             let stored = []
             let count = 0
             for(let i = 1; i < 10; i++) {
@@ -17,25 +17,28 @@
             const newStored = stored.map((item) => {
                 count ++
                 if (count == 3) {
-                    item = item + '\n'
+                    item = item + "\n"
                     count = 0
                 }
             return item}) 
-    let board = newStored.join('')
-    return board} 
+    return newStored.join('')
+    } 
 
+    
     const move = () => {
-        let move = prompt(board +'\npick a number to replace:')
-        board.replace(move, 'A')
-        return console.log(board)
+        let choice = Number(prompt(board +'\npick a number to replace:'))
+        let newBoard = board().replace(choice, 'A')
+        return console.log(newBoard)
 
     }
 
-    return {displayBoard, move}
+    return {board, move}
 }
 const game1 = game()
-game1.displayBoard
-game1.move
+console.log(game1.move())
+
+
+
     </script>
 </body>
 </html>
