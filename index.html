@@ -7,28 +7,28 @@
 </head>
 <body>
     <script>
-        function game() {
-        const board = () => {
+        function game() { 
+            const board = []
             let stored = []
-            let count = 0
             for(let i = 1; i < 10; i++) {
-                    stored.push(i)
-            }
-            const newStored = stored.map((item) => {
-                count ++
-                if (count == 3) {
-                    item = item + "\n"
-                    count = 0
+                stored.push(i)
+                if (i % 3 == 0) {
+                    board.push(stored)
+                    stored = []
                 }
-            return item}) 
-    return newStored.join('')
-    } 
-
+            }
     
     const move = () => {
         let choice = Number(prompt(board +'\npick a number to replace:'))
-        let newBoard = board().replace(choice, 'A')
-        return console.log(newBoard)
+        for (let row of board) {
+            for (let numb of row) {
+                if (choice == numb) {
+                    row[row.indexOf(numb)] = 'A'
+                    
+                }
+            }
+        }
+        return console.log(board)
 
     }
 
