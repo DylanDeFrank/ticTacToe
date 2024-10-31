@@ -35,15 +35,40 @@
     }
 
     const checkBoard = (board) => {
+        const player1Pieces = ['X','X','X'].toString()
+        const player2Pieces = ['O', 'O', 'O'].toString()
         for (i = 0; i < 2; i++ ) {
-            if (board[i].toString() == ['X','X','X'].toString()) {
+            if (board[i].toString() == player1Pieces) {
                 return console.log('Player 1 wins')
                 
             }
-            else if (row[i] == ['O', 'O', 'O']) {
+            else if (row[i] == player2Pieces) {
                 return console.log('Player 2 wins')
             }
-        }        
+        } let check = []
+        for (i = 0, ii = 0; i < 3; i++ ) {
+            check.push(board[i][ii])
+                if (check.toString() == player1Pieces) {
+                    return console.log('Player 1 wins')
+                }
+                else if (check.toString() == player2Pieces) {
+                    return console.log('Player 2 wins')
+                }
+                else if (i = 3) {
+                    check = []
+                    for (i = 0, ii = 1; i < 3; i++ ) {
+                        check.push(board[i][ii])
+                            if (check.toString() == player1Pieces) {
+                                return console.log('Player 1 wins')
+                            }
+                            else if (check.toString() == player2Pieces) {
+                                return console.log('Player 2 wins')
+                            }
+
+                    }
+                }
+        } 
+        return console.log(check)       
     }
 return {board, move, displayBoard}
 }
