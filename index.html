@@ -7,35 +7,88 @@
 </head>
 <body>
     <script>
-        function game() { 
+        function game () { 
             const board = []
-            let stored = []
+            let row = []
             for(let i = 1; i < 10; i++) {
-                stored.push(i)
+                row.push(i)
                 if (i % 3 == 0) {
-                    board.push(stored)
-                    stored = []
+                    board.push(row)
+                    row = []
                 }
             }
     
-    const move = () => {
-        let choice = Number(prompt(board +'\npick a number to replace:'))
+    const move = (turn) => {
+        let choice = Number(prompt(board + `\n${turn.name} pick a number to replace`))
         for (let row of board) {
             for (let numb of row) {
                 if (choice == numb) {
-                    row[row.indexOf(numb)] = 'A'
-                    
+                    row[row.indexOf(numb)] = turn.piece
                 }
             }
-        }
-        return console.log(board)
-
+        } checkBoard(board)
+    return console.log(board)
     }
 
-    return {board, move}
+    const displayBoard = () => {
+     return console.log(board)
+    }
+
+    const checkBoard = (board) => {
+        for (i = 0; i < 2; i++ ) {
+            if (board[i].toString() == ['X','X','X'].toString()) {
+                return console.log('Player 1 wins')
+                
+            }
+            else if (row[i] == ['O', 'O', 'O']) {
+                return console.log('Player 2 wins')
+            }
+        }        
+    }
+return {board, move, displayBoard}
 }
+
+function player() {
+    const getName = () => {
+        const name = prompt('Please enter a player name')
+        console.log('Your player name is ' + name)
+        return name
+    }
+    return {getName}
+}
+
+function gameController() {
+    const player1 = player().getName()
+    const player2 = player().getName()
+    console.log('The match is ' + player1 + ' vs ' + player2)
+    
+    const players = [
+        {
+            name: player1,
+            piece: 'X',
+        
+        },
+        {
+            name: player2,
+            piece: 'O',
+        }
+    ]
+    let activePlayer = players[0];
+
+const switchPlayerTurn = () => {
+  activePlayer = activePlayer === players[0] ? players[1] : players[0];
+};
+const getActivePlayer = () => activePlayer;
+
+return {switchPlayerTurn, getActivePlayer}
+}
+
+
+const playerGame1 = gameController()
 const game1 = game()
-console.log(game1.move())
+game1.move((playerGame1.getActivePlayer()))
+game1.move((playerGame1.getActivePlayer()))
+game1.move((playerGame1.getActivePlayer()))
 
 
 
