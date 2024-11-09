@@ -7,7 +7,8 @@
 </head>
 <body>
     <script>
-        function game () { 
+    const display = (function () {
+        const create = () => {
             const board = []
             let row = []
             for(let i = 1; i < 10; i++) {
@@ -17,6 +18,13 @@
                     row = []
                 }
             }
+            return board
+        } 
+            return {create} 
+    })()  
+    let board = display.create()  
+        function game () { 
+
     
     const move = (turn) => {
         let choice = Number(prompt(board + `\n${turn.name} pick a number to replace`))
@@ -27,52 +35,18 @@
                 }
             }
         } 
-        checkBoard(board)
         const display = console.log(board)
     return display
     }
 
-    const checkBoard = (board) => {
-        const player1Pieces = ['X','X','X'].toString()
-        const player2Pieces = ['O', 'O', 'O'].toString()
-        let check = []
-        for (i = 0; i < 2; i++ ) {
-            if (board[i].toString() == player1Pieces) {
-                return console.log('Player 1 wins')
-                break
-            }
-            else if (board[i].toString() == player2Pieces) {
-                return console.log('Player 2 wins')
-            }
-        }
-        const vertCheck = (column) => {
-            for (i = 0, ii = column; i < 3; i++ ) {
-                check.push(board[i][ii])
-                if (check.toString() == player1Pieces) {
-                    return console.log('Player 1 wins')
-                }
-                else if (check.toString() == player2Pieces) {
-                    return console.log('Player 2 wins')
-                }
-            }
-        }
-        vertCheck(0)
-        vertCheck(1)
-        vertCheck(2)
-    } 
-return {board, move,}
+    
+return {board, move}
 }
 
-function player() {
-    const getName = () => {
-        const name = prompt('Please enter a player name')
-        console.log('Your player name is ' + name)
-        return name
-    }
-    const player1 = getName()
-    const player2 = getName()
-    console.log('The match is ' + player1 + ' vs ' + player2)
-    const players = [
+function gameController() {
+        const player1 =  prompt('Player 1, enter a name')
+        const player2 = prompt('Player 2, enter a name')
+        const players = [
         {
             name: player1,
             piece: 'X',
@@ -82,32 +56,63 @@ function player() {
             name: player2,
             piece: 'O',
         }
-    ]
-    let activePlayer = players[0]
-    const switchPlayerTurn = () => {
-        activePlayer = activePlayer === players[0] ? players[1] : players[0];
+        ]
+        let activePlayer = players[0]
+        const switchPlayerTurn = () => {
+            activePlayer = activePlayer === players[0] ? players[1] : players[0];
+            }
+        const getActivePlayer = () => activePlayer
+        const checkBoard = (board) => {
+        const player1Pieces = ['X','X','X'].toString()
+        const player2Pieces = ['O', 'O', 'O'].toString()
+            for (i = 0; i < 3; i++ ) {
+                if (board[i].toString() == player1Pieces) {
+                    console.log('Player 1 wins')
+                    return true
+                }
+                else if (board[i].toString() == player2Pieces) {
+                    console.log('Player 2 wins')
+                    return true
+                }
+            }
+            let check = []
+            for (ii = 0; ii < 3; ii++) {
+                check = []
+                for (i = 0; i < 3; i++) {
+                check.push(board[i][ii])
+                if (check.toString() == player1Pieces) {
+                    console.log('Player 1 wins')
+                    return true
+                }
+                else if (check.toString() == player2Pieces) {
+                    console.log('Player 2 wins')
+                    return true
+                }
+              
+                }
+            }
+        }
+return {switchPlayerTurn, getActivePlayer, checkBoard}
+}
+
+    
+
+const game1 = gameController()
+
+    while(game1.checkBoard(board) != true) {
+        game().move(game1.getActivePlayer())
+        game1.checkBoard(board)
+        game1.switchPlayerTurn()
     }
-    const getActivePlayer = () => activePlayer
-return {switchPlayerTurn, getActivePlayer, players}
-}
+    alert('Winner!')
+     
 
-function gameController() {
-   const game1 = player() 
-   const board1 = game()
-   let i = 0
-   while (i < 10) {
-   board1.move(game1.getActivePlayer())
-   game1.switchPlayerTurn()
-   i++
-   
-   }
+
 
    
 
 
-}
 
-gameController()
 
 
 
