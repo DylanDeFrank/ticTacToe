@@ -7,41 +7,23 @@
 </head>
 <body>
     <script>
-    const display = (function () {
-        const create = () => {
-            const board = []
-            let row = []
-            for(let i = 1; i < 10; i++) {
-                row.push(i)
-                if (i % 3 == 0) {
-                    board.push(row)
-                    row = []
-                }
+const display = (function () {
+    const create = () => {
+        const board = []
+        let row = []
+        for(let i = 1; i < 10; i++) {
+            row.push(i)
+            if (i % 3 == 0) {
+                board.push(row)
+                row = []
             }
-            return board
-        } 
-            return {create} 
-    })()  
-    let board = display.create()  
-        function game () { 
+        }
+        return board
+    } 
+        return {create} 
+})()  
+let board = display.create()  
 
-    
-    const move = (turn) => {
-        let choice = Number(prompt(board + `\n${turn.name} pick a number to replace`))
-        for (let row of board) {
-            for (let numb of row) {
-                if (choice == numb) {
-                    row[row.indexOf(numb)] = turn.piece
-                }
-            }
-        } 
-        const display = console.log(board)
-    return display
-    }
-
-    
-return {board, move}
-}
 
 function gameController() {
         const player1 =  prompt('Player 1, enter a name')
@@ -58,10 +40,11 @@ function gameController() {
         }
         ]
         let activePlayer = players[0]
+        
         const switchPlayerTurn = () => {
             activePlayer = activePlayer === players[0] ? players[1] : players[0];
-            }
-        const getActivePlayer = () => activePlayer
+        }
+        
         const checkBoard = (board) => {
         const player1Pieces = ['X','X','X'].toString()
         const player2Pieces = ['O', 'O', 'O'].toString()
@@ -92,20 +75,37 @@ function gameController() {
                 }
             }
         }
-return {switchPlayerTurn, getActivePlayer, checkBoard}
+        const move = () => {
+            let choice = Number(prompt(board + `\n${activePlayer.name} pick a number to replace`))
+            for (const row of board) {
+                for (let numb of row) {
+                    if (choice == numb) {
+                        row[row.indexOf(numb)] = activePlayer.piece
+                    }
+                    else if (numb == 'X' | numb == 'O') {
+                        return game1.move()
+                    }   
+                }
+               
+            }
+            const display = console.log(board)
+            return display
+        }
+return {switchPlayerTurn, checkBoard, move}
 }
 
     
 
 const game1 = gameController()
 
+function playIt() {
     while(game1.checkBoard(board) != true) {
-        game().move(game1.getActivePlayer())
+        game1.move()
         game1.checkBoard(board)
         game1.switchPlayerTurn()
     }
     alert('Winner!')
-     
+}
 
 
 
