@@ -1,5 +1,5 @@
-const display = (function () {
-    const create = () => {
+const create = (function () {
+    const board = () => {
         const board = []
         let row = []
         for(let i = 1; i < 10; i++) {
@@ -10,29 +10,50 @@ const display = (function () {
             }
         }
         return board
-    } 
-        return {create} 
-})()  
-let board = display.create()  
+    }
+  
+return {board} 
+})()
+
+let board = create.board()
+
+
+
+
+    function screenController() {
+        const grid = document.querySelector('.board')
+       
+    
+        const createBoard = () => {
+            for (let row of board) {
+                for (let number of row) {
+                    const space = document.createElement('button')
+                    space.id = number
+                    grid.appendChild(space)
+                }
+            }
+        }
+
+
+   
+        return {createBoard}
+    }
+    
+    
+
+    
+ 
 
 
 function gameController() {
-        const intro = (function () {
-        let firstPlayer =  prompt('Player 1, enter a name')
-        let secondPlayer = prompt('Player 2, enter a name')
-        })()
-        const player1 = intro.firstPlayer
-        const player2 = intro.secondPlayer
-        
-        
         const players = [
         {
-            name: player1,
+            name: prompt('Player 1, please enter a name'),
             piece: 'X',
         
         },
         {
-            name: player2,
+            name: prompt ('Player 2, please enter a name'),
             piece: 'O',
         }
         ]
@@ -84,18 +105,19 @@ function gameController() {
             
             }
         }
-        const move = () => {
-            let choice = Number(prompt(board + `\n${activePlayer.name} pick a number to replace`))
+        const move = (choice) => {
             for (let row of board) {
                 for (let number of row) {
-                    if (number == choice) {
+                    if (number == choice.id) {
                         row.splice(row.indexOf(number), 1, activePlayer.piece)
+                        choice.textContent = activePlayer.piece 
+                        
                     }
                     
                 }
             }
         }
-return {intro, switchPlayerTurn, checkBoard, move}
+return {switchPlayerTurn, checkBoard, move}
 }
 
 
@@ -103,29 +125,19 @@ return {intro, switchPlayerTurn, checkBoard, move}
 
 
 
-function screenController() {
-    const grid = document.querySelector('.board')
 
-    const createBoard = () => {
-        board.forEach ((row) => {
-            row.forEach ((number) => {
-                const space = document.createElement('button')
-                grid.appendChild(space)
-            })
-            
-        })
-        
-    }
-    return {createBoard}
-}
-
-const game1 = gameController()
 function play() {
-    while(game1.checkBoard(board) != true) {
-        game1.intro()
-        game1.move()
+    screenController().createBoard(board)
+    const game1 = gameController()
+    const tiles = document.querySelectorAll('button')
+    tiles.forEach((tile) => {
+        tile.addEventListener('click', () => {
+        let choice = tile
+        game1.move(choice)
         game1.checkBoard(board)
-        game1.switchPlayerTurn()
+            if (game1.checkBoard(board) == true) {
+                return alert('Winner!')
+            }
+            else game1.switchPlayerTurn()
+        })})
     }
-    alert('Winner!')
-}
